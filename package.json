@@ -36,6 +36,7 @@
   "dependencies": {
     "bcrypt": "^3.0.7",
     "express": "^4.17.1",
+    "express-promise-router": "^3.0.3",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "pg": "^7.17.1"
