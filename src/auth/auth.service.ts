@@ -1,8 +1,8 @@
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import { UserWithThatEmailExistsException } from "../exceptions/userWithThatEmailExists.exception";
-import { DataStoredInToken } from "../interfaces/DataStoredInToken.interface";
-import { TokenData } from "../interfaces/TokenData.interface";
+import { DataStoredInToken } from "../interfaces/dataStoredInToken.interface";
+import { TokenData } from "../interfaces/tokenData.interface";
 import { CreateUserDto } from "../user/user.dto";
 import { UserService } from "../user/user.service";
 
