@@ -25,7 +25,7 @@ export class AuthService {
   }
 
   private createToken = (user: any): TokenData => {
-    const expiresIn = 60 * 60 * 72 //Three days
+    const expiresIn = 60 * 60 * 72 // Three days
     const secret = process.env.JWT_SECRET;
     const dataStoredinToken: DataStoredInToken = {
       id: user.id
