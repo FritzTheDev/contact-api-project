@@ -14,7 +14,7 @@ export const authMiddleware = async (req: RequestWithUser, res: Response, next: 
     try {
       const verificationResponse = jwt.verify(headers.authorization, secret) as DataStoredInToken;
       const id = verificationResponse.id;
-      const user = userService.findUserById(id);
+      const user = userService.findUserById(Number(id));
       if (user) {
         req.user = user;
         next();
@@ -25,6 +25,6 @@ export const authMiddleware = async (req: RequestWithUser, res: Response, next: 
       next(new WrongAuthTokenException());
     }
   } else {
-    next(new AuthTokenMissingException);
+    next(new AuthTokenMissingException());
   }
 }
