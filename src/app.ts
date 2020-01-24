@@ -1,7 +1,6 @@
 import * as express from "express";
 import { Controller } from "./interfaces/controller.interface";
 import { errorMiddleware } from "./middleware/error.middleware";
-import { AuthController } from "./auth/auth.controller";
 
 export class App {
   private app: express.Application;
@@ -10,7 +9,7 @@ export class App {
     this.app = express();
 
     this.initializeMiddleware();
-    this.initializeControllers([new AuthController()]);
+    this.initializeControllers(controllers);
     this.initializeErrorHandling();
   }
 
