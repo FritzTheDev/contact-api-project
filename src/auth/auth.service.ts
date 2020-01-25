@@ -10,7 +10,8 @@ export class AuthService {
   private userService = new UserService();
 
   public async register(userData: CreateUserDto) {
-    if (await this.userService.findUserByEmail(userData.email)) {
+    const emailCheck = await this.userService.findUserByEmail(userData.email);
+    if (emailCheck.rowCount !== 0) {
       throw new UserWithThatEmailExistsException(userData.email);
     }
     userData.password = await bcrypt.hash(userData.password, 10);
@@ -25,7 +26,7 @@ export class AuthService {
   }
 
   private createToken = (user: any): TokenData => {
-    const expiresIn = 60 * 60 * 72 // Three days
+    const expiresIn = 60 * 60 * 24 * 7 // One Week
     const secret = process.env.JWT_SECRET;
     const dataStoredinToken: DataStoredInToken = {
       id: user.id
