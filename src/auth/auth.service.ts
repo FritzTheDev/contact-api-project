@@ -38,6 +38,7 @@ export class AuthService {
       // Will throw on mismatch
       await bcrypt.compare(loginData.password, user.password_hash);
       const token = this.createToken({ id: user.id });
+      user.password_hash = undefined;
       return {
         token,
         user
