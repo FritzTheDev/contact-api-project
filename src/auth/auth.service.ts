@@ -3,6 +3,7 @@ import * as jwt from "jsonwebtoken";
 import { UserWithThatEmailExistsException } from "../exceptions/userWithThatEmailExists.exception";
 import { PasswordDoesNotMatchException } from "../exceptions/passwordDoesNotMatch.exception";
 import { UserDoesNotExistException } from "../exceptions/userDoesNotExist.exception";
+import { EmailNotValidException } from "../exceptions/emailNotValid.exception";
 import { DataStoredInToken } from "../interfaces/dataStoredInToken.interface";
 import { TokenData } from "../interfaces/tokenData.interface";
 import { CreateUserDto } from "../user/user.dto";
@@ -16,6 +17,11 @@ export class AuthService {
     const emailCheck = await this.userService.findUserByEmail(userData.email);
     if (emailCheck.rowCount !== 0) {
       throw new UserWithThatEmailExistsException(userData.email);
+    }
+    // Does a very basic check on whether an email is valid-ish
+    const re = /\S+@\S+\.\S+/;
+    if(re.test(userData.email)) {
+      throw new EmailNotValidException(userData.email);
     }
     userData.password = await bcrypt.hash(userData.password, 10);
     const userArray = await this.userService.addUser(userData);
