@@ -4,7 +4,7 @@
 - Estimated Time Spent Writing This API ~= 7 Hours over the course of a day and a half. That does not include the 2-3 Hours I spent learning SQL before I started.
 - This was a fun one, honestly. Raw SQL Queries weren't nearly as painful to work with as I expected. I imagine it's a lot less pleasant when you're writing migrations etc, but still.
 - I used a more object-oriented approach than I'm used to when express is concerned, and it treated me alright, but I get the impression that a # of my classes ended up just being bundles of functions that could have been exported seperately. Not sure what to make of that, but if I did it again I'd axe the classes I'm using for services but keep classes for controllers, since they actually have meaningful interaction with their own properties.
-- To expand on the point above, testing (mocking services, in particular) would almost certainly be easier if I went harder on the functions & eased off classes.
+- To expand on the point above, if I were to do testing, it (mocking services, in particular) would almost certainly be easier if I went harder on the functions & eased off classes.
 
 ### Steps to get up & running
 - Ensure you have postgres (This app tested with PostgreSQL 12) installed locally, with a server running on localhost port 5432
