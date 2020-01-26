@@ -1,6 +1,5 @@
 import * as express from "express";
 import Router from "express-promise-router";
-import { ForbiddenException } from "../exceptions/forbidden.exception";
 import { Controller } from "../interfaces/controller.interface";
 import { ContactService } from "./contact.service";
 import { authMiddleware } from "../middleware/auth.middleware";
