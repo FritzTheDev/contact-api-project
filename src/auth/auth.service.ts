@@ -47,8 +47,9 @@ export class AuthService {
     // but before returning it to be added to the response.
     user.password_hash = undefined;
     // creates Bearer token with the user's id as the only jwt property
-    //
     const token = `Bearer ${this.createToken(user.id)}`;
+    // returns token & also user data.
+    // If I had a user controller, it would have an endpoint for the user data.
     return {
       token,
       user
@@ -56,31 +57,41 @@ export class AuthService {
   }
 
   public async login(loginData: LoginDto) {
+    // finds the user record in the db .
     const userQueryResult = await this.userService.findUserByEmail(
       loginData.email
     );
+    // if no record returns, throw custom error.
     if (userQueryResult.rowCount === 0) {
       throw new UserDoesNotExistException(loginData.email);
     }
     const user = userQueryResult.rows[0];
+    // check if passwords match.
     if (await bcrypt.compare(loginData.password, user.password_hash)) {
+      // create token with the user id.
       const token = `Bearer ${this.createToken(user.id)}`;
+      // set user pw hash to undefined so it does not get sent back.
       user.password_hash = undefined;
+      // returns token & userData.
       return {
         token,
         user
       };
     } else {
+      // throws custom error if passwords do not match.
       throw new PasswordDoesNotMatchException();
     }
   }
 
-  private createToken = (id): string => {
+  private createToken = (id: any): string => {
     const expiresIn = 60 * 60 * 24 * 7; // One Week
+    // gets JWT secret from env vars
     const secret = process.env.JWT_SECRET;
+    // sets data to be stored
     const dataStoredinToken: DataStoredInToken = {
       id
     };
+    // cryptographically signs the jwt
     return jwt.sign(dataStoredinToken, secret, { expiresIn });
   };
 }
