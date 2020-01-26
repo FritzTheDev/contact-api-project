@@ -27,7 +27,7 @@ export class AuthService {
     const userArray = await this.userService.addUser(userData);
     const user = userArray.rows[0];
     user.password_hash = undefined;
-    const token = this.createToken({ id: user.id });
+    const token = `Bearer ${this.createToken({ id: user.id }).token}`
     return {
       token,
       user
@@ -43,7 +43,7 @@ export class AuthService {
     }
     const user = userQueryResult.rows[0];
     if (await bcrypt.compare(loginData.password, user.password_hash)) {
-      const token = this.createToken({ id: user.id });
+      const token = `Bearer ${this.createToken({ id: user.id }).token}`;
       user.password_hash = undefined;
       return {
         token,
