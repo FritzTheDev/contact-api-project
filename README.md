@@ -15,7 +15,7 @@
 - The environment variables, particularly the JWT secret & postgres auth config, would need to be secured better than "Sent in a .env as part of a zip file"
 - Email Verification: the app should ensure that the email address used in registration is an actual valid email that the user has access to.
 - Logging tools ala morgan & winston to keep tabs on application logs for things like http requests & errors
-- Better validation on data in general; The spec mentioned I could go easy on that but an empty string does not make a good password.
+- Better validation on data in general; The spec suggested I could go easy on that but an empty string does not make a good password.
 - A process manager like strongloop. I'm no expert on this but I know it's important.
 
 
