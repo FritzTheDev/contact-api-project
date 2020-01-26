@@ -21,15 +21,27 @@
 
 ### API Documentation
 
-##### Auth Routes
+#### Auth Routes
 - /auth/register POST (No Auth)
-  - Registers a new user, given a full_name string, an email string, and a password string.
+  - Registers a new user, given a `full_name` string, an `email` string, and a `password` string.
   - Hashes the password, checks the email for uniqueness & structure, then saves the user to the db.
-  - returns the user (without the password hash) & a json web token containing the user's id.
+  - Returns the user (without the password hash) & a json web token containing the user's id.
 
 - /auth/login POST (No Auth)
-  - Logs in a new user, given a valid email & password pair.
-  - returns the user & a json web token containing the user's id.
+  - Logs in a new user, given a valid `email` string & `password` string.
+  - Returns the user & a json web token containing the user's id.
 
-##### Group Routes
-- /group/ GET (authed)
+#### Group Routes
+- /group/ POST (Authed)
+  - Creates a new group, given a `group_name` string.
+  - The group is associated with the user that created it.
+
+- /group/ GET (Authed)
+  - Returns all groups created by the requesting user.
+  - Only includes the group rows themeselves, the contacts within are accessed via group detail routes
+  
+- /group/<pk:integer>/ GET (Authed)
+  - Returns group details as well as the contacts associated with the group.
+
+#### Contact Routes
+- /contact/<pk:integer>/ GET (Authed)
