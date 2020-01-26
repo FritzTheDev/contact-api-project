@@ -9,9 +9,10 @@
 - to start the development version, run `npm run dev`
 - to build the production version from source, then run it, run `npm run build`, then `npm run start`
 
-#### Non-Exhaustive list of things a production app would need to include that are not included
+#### Non-Exhaustive list of things a production app would need to include that are not included in this version
 - A testing suite, at least for endpoints: I was considering setting one up with Jest & Supertest, but I erred on the side of "Time to completion"
 - The environment variables, particularly the JWT secret & postgres auth config, would need to be secured better than "Sent in a .env as part of a zip file"
 - Email Verification: the app should ensure that the email addresses used in registration are actual valid emails that the user has access to.
 - Logging tools ala morgan & winston to keep tabs on application logs for things like http requests & errors
 - Better validation on data in general; The spec mentioned I could go easy on that but an empty string does not make a good password.
+- A process manager like strongloop. I'm no expert on this but I know it's important.
