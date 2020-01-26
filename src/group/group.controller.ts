@@ -7,6 +7,7 @@ import { validationMiddleware } from "../middleware/validation.middleware";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { GroupService } from "./group.service";
 import { ContactService } from "../contact/contact.service";
+import { UserService } from "../user/user.service";
 import { CreateGroupDto } from "./createGroup.dto";
 
 export class GroupController implements Controller {
@@ -14,6 +15,7 @@ export class GroupController implements Controller {
   public router = Router();
   private groupService = new GroupService();
   private contactService = new ContactService();
+  private userService = new UserService();
 
   constructor() {
     this.initializeRoutes();
@@ -77,9 +79,16 @@ export class GroupController implements Controller {
         returnedContactData = await this.contactService.findContactsByGroup(
           Number(req.params["id"])
         );
+        const fullNameChecks = await returnedContactData.rows.map(async (row, index, array) => {
+          const returnedUserData = await this.userService.findUserByEmail(row.email);
+          array[index].group_id = undefined;
+          array[index].owner_id = undefined;
+          array[index].full_name = returnedUserData.rows[0].full_name;
+        });
+        await Promise.all(fullNameChecks); // Fancy Fancy... Never used this before lol.
         res.status(200).json({ ...returnedGroupData.rows[0], contacts: returnedContactData.rows });
       } else {
-        throw new ForbiddenException()
+        throw new ForbiddenException();
       }
     } catch (error) {
       next(error);
