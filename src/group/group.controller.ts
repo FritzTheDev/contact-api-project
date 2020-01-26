@@ -6,12 +6,14 @@ import { RequestWithUser } from "../interfaces/requestWithUser.interface";
 import { validationMiddleware } from "../middleware/validation.middleware";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { GroupService } from "./group.service";
+import { ContactService } from "../contact/contact.service";
 import { CreateGroupDto } from "./createGroup.dto";
 
 export class GroupController implements Controller {
   public path = "/group";
   public router = Router();
   private groupService = new GroupService();
+  private contactService = new ContactService();
 
   constructor() {
     this.initializeRoutes();
@@ -25,6 +27,7 @@ export class GroupController implements Controller {
       this.addGroup
     );
     this.router.get(`${this.path}/`, authMiddleware, this.getOwnedGroups);
+    this.router.get(`${this.path}/:id/`, authMiddleware, this.getOneGroup);
   }
 
   private addGroup = async (
@@ -68,12 +71,13 @@ export class GroupController implements Controller {
         Number(req.params["id"])
       );
 
-      let returnedContacts; // Sets this in a wider scope so I can bundle them for the response
+      let returnedContactData; // Sets this in a wider scope so I can bundle them for the response
 
       if (returnedGroupData.rows[0].owner_id === req.user.id) {
-        returnedContacts = await this.contactService.findGroupContacts(
+        returnedContactData = await this.contactService.findContactsByGroup(
           Number(req.params["id"])
         );
+        res.status(200).json({ ...returnedGroupData.rows[0], contacts: returnedContactData.rows });
       } else {
         throw new ForbiddenException()
       }
