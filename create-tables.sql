@@ -7,10 +7,11 @@ CREATE TABLE users (
 CREATE TABLE groups (
   id serial PRIMARY KEY,
   group_name TEXT,
-  user_id integer REFERENCES users
+  owner_id integer REFERENCES users
 );
-CREATE TABLE emails (
+CREATE TABLE contacts (
   id serial PRIMARY KEY,
   email TEXT,
+  owner_id integer REFERENCES users,
   group_id integer REFERENCES groups
 );
