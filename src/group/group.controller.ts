@@ -20,7 +20,7 @@ export class GroupController implements Controller {
     this.router.post(`${this.path}/`, authMiddleware, validationMiddleware(CreateGroupDto), this.addGroup)
   }
 
-  private addGroup = async (req: RequestWithUser, res: express.Response, next: express.NextFunction) => {
+  private addGroup = async (req: RequestWithUser, res: express.Response) => {
     const createdGroup = await this.groupService.createGroup(req.body, req.user.id);
     res.status(201).json(createdGroup.rows[0]);
   }
