@@ -8,6 +8,10 @@ import { validationMiddleware } from "../middleware/validation.middleware";
 import { ContactDto } from "./contact.dto";
 
 export class ContactController implements Controller {
+  /*
+  * Handles routing & request handling for the add contact route
+  * Could have included a "get one contact" route but that wasn't required
+  */
   public path = "/contact";
   public router = Router();
   private contactService = new ContactService();
