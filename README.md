@@ -44,4 +44,6 @@
   - Returns group details as well as the contacts associated with the group.
 
 #### Contact Routes
-- /contact/<id:integer>/ GET (Authed)
+- /contact/ POST (Authed)
+  - Adds a contact, given a `group_id` integer and an `email` string
+  - ad
