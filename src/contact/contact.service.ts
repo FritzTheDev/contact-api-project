@@ -7,7 +7,7 @@ export class ContactService {
 
   public createContact = async (contactData: ContactDto, ownerId: number) =>
     await query(
-      "INSERT INTO contacts(email, owner_id, group_id) VALUES($1, $2, $3) RETURN *",
+      "INSERT INTO contacts(email, owner_id, group_id) VALUES($1, $2, $3) RETURNING *",
       [contactData.email, ownerId, contactData.group_id]
     );
 }
