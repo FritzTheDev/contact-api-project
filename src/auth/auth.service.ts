@@ -20,7 +20,7 @@ export class AuthService {
     }
     // Does a very basic check on whether an email is valid-ish
     const re = /\S+@\S+\.\S+/;
-    if(re.test(userData.email)) {
+    if(!re.test(userData.email)) {
       throw new EmailNotValidException(userData.email);
     }
     userData.password = await bcrypt.hash(userData.password, 10);
