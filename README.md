@@ -42,8 +42,9 @@
   
 - /group/<id:integer>/ GET (Authed)
   - Returns group details as well as the contacts associated with the group.
+  - 403's on other people's groups.
 
 #### Contact Routes
 - /contact/ POST (Authed)
-  - Adds a contact, given a `group_id` integer and an `email` string
-  - ad
+  - Adds a contact to the db, given a `group_id` integer and an `email` string
+  - Returns the created contact
