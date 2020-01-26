@@ -40,8 +40,8 @@
   - Returns all groups created by the requesting user.
   - Only includes the group rows themeselves, the contacts within are accessed via group detail routes
   
-- /group/<pk:integer>/ GET (Authed)
+- /group/<id:integer>/ GET (Authed)
   - Returns group details as well as the contacts associated with the group.
 
 #### Contact Routes
-- /contact/<pk:integer>/ GET (Authed)
+- /contact/<id:integer>/ GET (Authed)
