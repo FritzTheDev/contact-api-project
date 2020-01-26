@@ -16,7 +16,7 @@ export class ContactController implements Controller {
   }
 
   private initializeRoutes() {
-    this.router.post(`${this.path}/:id`, authMiddleware, validationMiddleware(ContactDto), this.addContact)
+    this.router.post(`${this.path}/`, authMiddleware, validationMiddleware(ContactDto), this.addContact)
   }
 
   private addContact = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
