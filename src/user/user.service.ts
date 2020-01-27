@@ -2,6 +2,13 @@ import { query } from "../database";
 import { CreateUserDto } from "./user.dto";
 
 export class UserService {
+  /*
+  * Handles SQL queries relating to users
+  * Basically just an interface between the db & the app;
+  * SQL queries happen here so they're less coupled.
+  */
+
+  // implicit return makes this neat.
   public findUserById = async (id: number) => await query("SELECT * FROM users WHERE id = $1", [id]);
 
   public findUserByEmail = async (email: string) => await query("SELECT * FROM users WHERE email = $1", [email]);
