@@ -37,4 +37,4 @@ export const authMiddleware = async (req: RequestWithUser, res: Response, next: 
   } else {
     next(new AuthTokenMissingException());
   }
-}Z
+}
