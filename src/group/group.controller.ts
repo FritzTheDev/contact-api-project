@@ -13,6 +13,7 @@ import { CreateGroupDto } from "./createGroup.dto";
 export class GroupController implements Controller {
   public path = "/group";
   public router = Router();
+  // creates new services to use in handlers
   private groupService = new GroupService();
   private contactService = new ContactService();
   private userService = new UserService();
@@ -49,6 +50,7 @@ export class GroupController implements Controller {
   };
 
   private getOwnedGroups = async (
+    // gets all groups associated with the authed user.
     req: RequestWithUser,
     res: express.Response,
     next: express.NextFunction
@@ -64,6 +66,7 @@ export class GroupController implements Controller {
   };
 
   private getOneGroup = async (
+    // returns a single owned group & associated contacts
     req: RequestWithUser,
     res: express.Response,
     next: express.NextFunction
@@ -73,25 +76,38 @@ export class GroupController implements Controller {
         Number(req.params["id"])
       );
 
-      let returnedContactData; // Sets this in a wider scope so I can bundle them for the response
+      let returnedContactData; // Set this in a wider scope so I can bundle them for the response
 
       if (returnedGroupData.rows[0].owner_id === req.user.id) {
         returnedContactData = await this.contactService.findContactsByGroup(
           Number(req.params["id"])
         );
-        const fullNameChecks = await returnedContactData.rows.map(async (row, index, array) => {
-          const returnedUserData = await this.userService.findUserByEmail(row.email);
-          array[index].group_id = undefined;
-          array[index].owner_id = undefined;
-          array[index].full_name = returnedUserData.rows[0].full_name;
-        });
+
+        const fullNameChecks = await returnedContactData.rows.map(
+          async (row, index, array) => {
+            const returnedUserData = await this.userService.findUserByEmail(
+              row.email
+            );
+            // sets owner id to undefined since we already have it in the response
+            array[index].group_id = undefined;
+            // adds the name of the contact to the response, if it exists
+            if (returnedUserData.rows[0]?.full_name) {
+              array[index].full_name = returnedUserData.rows[0].full_name;
+            }
+          }
+        );
         await Promise.all(fullNameChecks); // Fancy Fancy... Never used this before lol.
-        res.status(200).json({ ...returnedGroupData.rows[0], contacts: returnedContactData.rows });
+        res
+          .status(200)
+          .json({
+            ...returnedGroupData.rows[0],
+            contacts: returnedContactData.rows
+          });
       } else {
         throw new ForbiddenException();
       }
     } catch (error) {
       next(error);
     }
-  }
+  };
 }
