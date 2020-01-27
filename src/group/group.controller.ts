@@ -38,6 +38,7 @@ export class GroupController implements Controller {
     res: express.Response,
     next: express.NextFunction
   ) => {
+    // each controller method wraps services in a try/catch then passes errors to next()
     try {
       const createdGroup = await this.groupService.createGroup(
         req.body,
@@ -96,7 +97,8 @@ export class GroupController implements Controller {
             }
           }
         );
-        await Promise.all(fullNameChecks); // Fancy Fancy... Never used this before lol.
+        // once all promises in the array have resolved, continue
+        await Promise.all(fullNameChecks);
         res
           .status(200)
           .json({
